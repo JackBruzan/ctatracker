@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Bustrain:</strong>
+  <%= @schedule.bustrain %>
+</p>
+
+<p>
+  <strong>Routeid:</strong>
+  <%= @schedule.routeid %>
+</p>
+
+<p>
+  <strong>Starttime:</strong>
+  <%= @schedule.starttime %>
+</p>
+
+<p>
+  <strong>Endtime:</strong>
+  <%= @schedule.endtime %>
+</p>
+
+<p>
+  <strong>Days:</strong>
+  <%= @schedule.days %>
+</p>
+
+<%= link_to 'Edit', edit_schedule_path(@schedule) %> |
+<%= link_to 'Back', schedules_path %>

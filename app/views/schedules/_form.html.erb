@@ -1,0 +1,42 @@
+<%= form_with(model: schedule, local: true) do |form| %>
+  <% if schedule.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(schedule.errors.count, "error") %> prohibited this schedule from being saved:</h2>
+
+      <ul>
+      <% schedule.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :bustrain %>
+    <%= form.text_field :bustrain, id: :schedule_bustrain %>
+  </div>
+
+  <div class="field">
+    <%= form.label :routeid %>
+    <%= form.text_field :routeid, id: :schedule_routeid %>
+  </div>
+
+  <div class="field">
+    <%= form.label :starttime %>
+    <%= form.datetime_select :starttime, id: :schedule_starttime %>
+  </div>
+
+  <div class="field">
+    <%= form.label :endtime %>
+    <%= form.datetime_select :endtime, id: :schedule_endtime %>
+  </div>
+
+  <div class="field">
+    <%= form.label :days %>
+    <%= form.text_field :days, id: :schedule_days %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
