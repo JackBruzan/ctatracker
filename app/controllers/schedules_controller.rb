@@ -2,6 +2,8 @@ class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
 
+  include HTTParty
+
   # GET /schedules
   # GET /schedules.json
   def index
@@ -11,6 +13,7 @@ class SchedulesController < ApplicationController
   # GET /schedules/1
   # GET /schedules/1.json
   def show
+    estimate
   end
 
   # GET /schedules/new
@@ -60,6 +63,11 @@ class SchedulesController < ApplicationController
       format.html { redirect_to schedules_url, notice: 'Schedule was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def estimate
+    response = self.class.get("http://rubygems.org/api/v1/versions/httparty.json", {})
+    @schedule.estimate = response[0]["number"]
   end
 
   private
