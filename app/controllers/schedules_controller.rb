@@ -3,6 +3,7 @@ class SchedulesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   include HTTParty
+  include JSON
 
   # GET /schedules
   # GET /schedules.json
@@ -66,8 +67,9 @@ class SchedulesController < ApplicationController
   end
 
   def estimate
-    response = self.class.get("http://rubygems.org/api/v1/versions/httparty.json", {})
-    @schedule.estimate = response[0]["number"]
+    response = self.class.get("http://www.ctabustracker.com/bustime/api/v2/gettime?key=qtQscN352d8Z6WVaQpcUYM99z&format=json", {})
+    time = DateTime.parse(response["bustime-response"]["tm"]).strftime('%I:%M:%S')
+    @schedule.estimate = time
   end
 
   private
