@@ -2,32 +2,24 @@ class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
 
-  include HTTParty
-  include JSON
-
-  # GET /schedules
-  # GET /schedules.json
   def index
     @schedules = Schedule.all
   end
 
-  # GET /schedules/1
-  # GET /schedules/1.json
+  include HTTParty
+  include JSON
+
   def show
     estimate
   end
 
-  # GET /schedules/new
   def new
     @schedule = current_user.schedules.build
   end
 
-  # GET /schedules/1/edit
   def edit
   end
 
-  # POST /schedules
-  # POST /schedules.json
   def create
     @schedule = current_user.schedules.build(schedule_params)
 
@@ -42,8 +34,6 @@ class SchedulesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /schedules/1
-  # PATCH/PUT /schedules/1.json
   def update
     respond_to do |format|
       if @schedule.update(schedule_params)
@@ -56,8 +46,6 @@ class SchedulesController < ApplicationController
     end
   end
 
-  # DELETE /schedules/1
-  # DELETE /schedules/1.json
   def destroy
     @schedule.destroy
     respond_to do |format|
@@ -67,9 +55,13 @@ class SchedulesController < ApplicationController
   end
 
   def estimate
-    response = self.class.get("http://www.ctabustracker.com/bustime/api/v2/gettime?key=qtQscN352d8Z6WVaQpcUYM99z&format=json", {})
-    time = DateTime.parse(response["bustime-response"]["tm"]).strftime('%I:%M:%S')
-    @schedule.estimate = time
+    response = self.class.get("http://www.ctabustracker.com/bustime/api/v2/getpredictions?key=qtQscN352d8Z6WVaQpcUYM99z&rt=78&dir=Westbound&stpid=15519&format=json",{})
+    prediction = response["bustime-response"]["prd"][0]["prdctdn"]
+    if prediction == "DUE"
+      @schedule.estimate = prediction
+    else
+      @schedule.estimate = prediction + " minutes"
+    end
   end
 
   private
