@@ -11,15 +11,9 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :bustrain %>
-    <%= form.text_field :bustrain, id: :schedule_bustrain %>
-  </div>
-
-  <div class="field">
-    <%= form.label :routeid %>
-    <%= form.text_field :routeid, id: :schedule_routeid %>
-  </div>
+  <div class "field">
+    <%= form.collection_select(:routeid, Route.all, 'routeid', 'routeName')%>
+    </div>
 
   <div class="field">
     <%= form.label :starttime %>
